@@ -4,12 +4,15 @@ from tensorflow.keras import layers
 import os
 
 
-def create_model(input):
-    model=layers.Dense(512, activation='relu')(input)
-    model=layers.Dense(256, activation='relu')(model)
-    model=layers.Dense(128, activation='relu')(model)
-    model=layers.Dense(64, activation='relu')(model)
-    output=layers.Dense(1, activation='sigmoid')(model)
+def create_model(input,targets):
+    
+    inputs=keras.Input(shape=(1000))
+    model = layers.Dense(1000,activation='relu')(inputs)
+    model = layers.Dense(1000,activation='relu')(model)
+    model = layers.Dense(1000,activation='relu')(model)
+    model = layers.Dense(1000,activation='relu')(model)
+    model = layers.Dense(1000,activation='relu')(model)
+    outputs = layers.Dense(1,activation='sigmoid')
 
     model=keras.Model(inputs=inputs, outputs=output)
 

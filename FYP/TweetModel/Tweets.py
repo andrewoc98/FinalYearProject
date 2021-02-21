@@ -1,6 +1,5 @@
 import tweepy
 import TweetModel.StreamListener as sl
-
 def StreamTweets():
 
     consumer_key="iJ4GiApERtf3EnUyCZTvUYW2f"
@@ -16,4 +15,4 @@ def StreamTweets():
     myStreamListener= sl.MyStreamListener()
     myStream= tweepy.Stream(auth= api.auth, listener=myStreamListener)
 
-    myStream.filter(track=['football'])
+    myStream.filter(track=['Dow Jones','DJIA','The Dow'])

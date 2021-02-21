@@ -2,14 +2,15 @@ import tweepy as twp
 import csv
 import datetime as dt
 import sys
-#import BertModel 
 from BertModel.src.app import sentence_prediction as predict
-
-
+from TweetModel.News import getNews
 
 class MyStreamListener(twp.StreamListener):
     def on_status(self, status):
         
+        if check_news() <10:
+            getNews()
+
         tweet = status.text
         
         while "@" in tweet:
@@ -96,3 +97,13 @@ class MyStreamListener(twp.StreamListener):
         
         return string
 
+
+def check_news():
+    try:
+        currentDay=dt.date.today().isoformat()
+        file = open(f'{currentDay}-News.csv')
+        reader=csv.reader(file)
+        lines = len(list(reader))
+        return lines
+    except:
+        return 0
