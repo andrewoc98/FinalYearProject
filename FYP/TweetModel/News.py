@@ -2,6 +2,8 @@ import tweepy as twp
 import datetime as dt
 import csv
 from BertModel.src.app import sentence_prediction
+import TweetModel.Price
+import PredictionModel.train
 
 def getNews():
     consumer_key="iJ4GiApERtf3EnUyCZTvUYW2f"
@@ -52,10 +54,10 @@ def getNews():
             #usually occurs when emojis are present in the tweet
             #or when custom fonts are used
         except UnicodeEncodeError:
-            print("could not handle this tweet")
-            print(tweet)
+            pass
 
-
+    TweetModel.Price.getPrice()
+    PredictionModel.train.trainModel()
 
 #remover users @'s from the tweet text
 def removeUser(string):
