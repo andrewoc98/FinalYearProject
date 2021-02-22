@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 import datetime as dt
+import pandas as pd
 
 
 def getPrice():
@@ -15,4 +16,27 @@ def getPrice():
     with open('../FYP/TweetModel/TweetFolder/Price.csv','a', newline='') as f:
                 thewriter = csv.writer(f)
                 thewriter.writerow([price,dt.date.today().isoformat()])
+
+    createLabels()
+
+def createLabels():
+
+    df = pd.read_csv("../TweetModel/TweetFolder/Price.csv")
+    PrevPrice=df['Price'].iloc[-2]
+    CurrentPrice=df['Price'].iloc[-1]
+
+
+    if PrevPrice>CurrentPrice:
+        df['Label'].iloc[-2]=0
+    elif PrevPrice<CurrentPrice:
+        df['Label'].iloc[-2]=1
+    else:
+        df['Label'].iloc[-2]=0.5
+
+
+    f = open('../TweetModel/TweetFolder/Price.csv', 'r+')
+    f.truncate(0)
+    df.to_csv("../TweetModel/TweetFolder/Price.csv", index=False)
+
+
 
