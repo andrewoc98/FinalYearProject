@@ -1,6 +1,5 @@
 import tweepy
 import TweetModel.StreamListener as sl
-from TweetModel.reset import reset()
 def StreamTweets():
 
     consumer_key="iJ4GiApERtf3EnUyCZTvUYW2f"
@@ -19,3 +18,6 @@ def StreamTweets():
         myStream.filter(track=['Dow Jones','DJIA','The Dow'])
     except :
         reset()
+
+def reset():
+    StreamTweets()
