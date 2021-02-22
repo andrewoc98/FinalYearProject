@@ -28,7 +28,6 @@ def getNews():
     newsarr=[]
     for tweet in newstweets:
         tweet=tweet.text
-        print(tweet)
         while "@" in tweet:
             tweet = removeUser(tweet)
 

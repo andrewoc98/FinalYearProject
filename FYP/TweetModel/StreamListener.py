@@ -7,7 +7,6 @@ from TweetModel.News import getNews
 
 class MyStreamListener(twp.StreamListener):
     def on_status(self, status):
-        
         if check_news() <10:
             getNews()
 
@@ -99,11 +98,14 @@ class MyStreamListener(twp.StreamListener):
 
 
 def check_news():
-    try:
+
+
         currentDay=dt.date.today().isoformat()
-        file = open(f'{currentDay}-News.csv')
+        file = open(f'../FYP/TweetModel/TweetFolder/{currentDay}-News.csv')
         reader=csv.reader(file)
         lines = len(list(reader))
         return lines
-    except:
-        return 0
+ 
+
+
+       

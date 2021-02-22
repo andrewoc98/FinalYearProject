@@ -8,7 +8,6 @@ MODEL = BERTBaseUncased()
 DEVICE = 'cpu'
 
 def sentence_prediction(sentence):
-    print("I ran 1")
     tokenizer = config.TOKENIZER
     max_len = config.MAX_LEN
     review = str(sentence)
