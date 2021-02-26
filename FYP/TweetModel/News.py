@@ -57,6 +57,7 @@ def getNews():
 
     TweetModel.Price.getPrice()
     PredictionModel.train.trainModel()
+    
 
 #remover users @'s from the tweet text
 def removeUser(string):

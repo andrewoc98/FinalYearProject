@@ -30,7 +30,7 @@ class MyStreamListener(twp.StreamListener):
         date= date.strftime("%x")
         date=str(date)
         date=date.replace('/','-')
-        string='TweetModel/TweetFolder/'+date+'.csv'
+        string='TweetModel/TweetFolder/'+date+'Tweet.csv'
 
         #trys to add the tweet to the next line in the csv file
         try:

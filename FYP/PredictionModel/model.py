@@ -4,22 +4,30 @@ from tensorflow.keras import layers
 import os
 
 
-def create_model(input,targets):
+def create_model():
     
-    inputs=keras.Input(shape=(1000))
-    model = layers.Dense(1000,activation='relu')(inputs)
-    model = layers.Dense(1000,activation='relu')(model)
-    model = layers.Dense(1000,activation='relu')(model)
-    model = layers.Dense(1000,activation='relu')(model)
-    model = layers.Dense(1000,activation='relu')(model)
-    outputs = layers.Dense(1,activation='sigmoid')
+    NewsInput=Input(shape=[10])
+    SentimentInput=Input(shape=[10])
 
-    model=keras.Model(inputs=inputs, outputs=output)
+    Sentimentmodel = layers.Dense(1000,activation='relu')(SentimentInput)
+    Sentimentmodel = layers.Dense(1000,activation='relu')(Sentimentmodel)
+    Sentimentmodel = layers.Dense(1000,activation='relu')(Sentimentmodel)
+    Sentinmentmodel= Model(inputs=SentimentInput, outputs=Sentimentmodel)
 
-    model.compile(
-        loss=keras.losses.BinaryCrossentropy(from_logits = False),
-        optimizer=keras.optimizer.Adam(lr=0.001),
-        metrics=['accuracy']
-    )
+    NewsModel = layers.Dense(1000,activation='relu')(NewsInput)
+    NewsModel = layers.Dense(1000, activation='relu')(NewsModel)
+    NewsModel = layers.Dense(1000, activation='relu')(NewsModel)
+    NewsModel= Model(inputs=NewsInput,outputs=NewsModel)
+
+    combined =concatenate([Sentimentmodel.output,NewsModel.output])
+
+    finalModel= Dense(2,activation='relu')(combined)
+    finalModel= Dense(1,activation='linear')(Model)
+
+    model=Model(inputs=[Sentimentmodel.input,NewsModel.input], outputs=finalModel)
+    model.compile(optimizer='adam',loss='mean_absolute_error', metrics=['accuracy'])
+
+
+    return model
 
     
