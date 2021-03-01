@@ -66,3 +66,8 @@ def ShapeData(SentimentList,NewsList,PriceList,numofarray):
             
 
     return inputs,labels
+
+
+
+def predictStock(inputs,model):
+    return model.predict(inputs)
