@@ -3,7 +3,7 @@ import datetime as dt
 import csv
 from BertModel.src.app import sentence_prediction
 import TweetModel.Price
-import PredictionModel.train
+from PredictionModel import train,model
 
 def getNews():
     consumer_key="iJ4GiApERtf3EnUyCZTvUYW2f"
@@ -56,7 +56,9 @@ def getNews():
             pass
 
     TweetModel.Price.getPrice()
-    PredictionModel.train.trainModel()
+    predictmodel= model.create_model()
+    input1, input2, labels=train.getData()
+    train.trainModel(predictmodel,input1,input2,labels)
     
 
 #remover users @'s from the tweet text
@@ -108,4 +110,6 @@ def HashTagToWord(string):
     string = string.replace(substr, Output)
     
     return string
+    
+
     
