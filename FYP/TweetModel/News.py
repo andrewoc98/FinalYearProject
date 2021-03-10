@@ -59,7 +59,9 @@ def getNews():
     predictmodel= model.create_model()
     input1, input2, labels=train.getData()
     train.trainModel(predictmodel,input1,input2,labels)
-    
+    Sentiment, News = train.getPredictionData()
+    Sentiment, News =train.PredictionData(Sentiment, News)
+    train.Predict(Sentiment,News, predictmodel)
 
 #remover users @'s from the tweet text
 def removeUser(string):
@@ -110,6 +112,3 @@ def HashTagToWord(string):
     string = string.replace(substr, Output)
     
     return string
-    
-
-    
