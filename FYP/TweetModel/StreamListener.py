@@ -26,10 +26,7 @@ class MyStreamListener(twp.StreamListener):
             tweet = self.removeRetweetTag(tweet)
     
         #names the csv file after the current date
-        date = dt.datetime.now()
-        date= date.strftime("%x")
-        date=str(date)
-        date=date.replace('/','-')
+        date = dt.date.today().isoformat()
         string='TweetModel/TweetFolder/'+date+'Tweet.csv'
 
         #trys to add the tweet to the next line in the csv file
@@ -99,13 +96,12 @@ class MyStreamListener(twp.StreamListener):
 
 def check_news():
 
-
+    try:
         currentDay=dt.date.today().isoformat()
         file = open(f'../FYP/TweetModel/TweetFolder/{currentDay}-News.csv')
         reader=csv.reader(file)
         lines = len(list(reader))
         return lines
+    except:
+        return 0
  
-
-
-       
