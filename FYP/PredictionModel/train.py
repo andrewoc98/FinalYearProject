@@ -8,11 +8,9 @@ def trainModel(model,input1,input2,labels):
     input1=np.asarray(input1).astype('float32')
     input2=np.asarray(input2).astype('float32')
     labels=np.asarray(labels).astype('float32')
-    
     model.fit({'I1':input1,'I2':input2},labels,epochs=20, validation_split=0.2,verbose =1)
     model.save(filepath='../FYP/PredictionModel/PredictionModel.bin')
-    print("I work")
-    
+
 def getData():
     today=str(dt.datetime.now().strftime("%x"))
     today = today.replace('/','-')
@@ -59,9 +57,6 @@ def normaliseData(Date,dataframe):
     return output
 
 
-
-
-
 def ShapeData(SentimentList,NewsList,PriceList):
     input1=[]
     input2=[]
@@ -72,16 +67,14 @@ def ShapeData(SentimentList,NewsList,PriceList):
         News[1]=News[1].values.tolist()
         for File in SentimentList:
             for Sentiment in File:
-                NewsDate=DateConvert(News[0])
-                if str(Sentiment[1])==NewsDate :
+                
+                if Sentiment[1]==News[0]:
                     try:
 
                         
                         News[1]=np.asarray(News[1])
                         News[1]=np.squeeze(News[1])
                         Sentiment[0]=np.squeeze(Sentiment[0])
-                        News[1]=News[1].tolist()
-                        Sentiment[0]=Sentiment[0].tolist()
                         input1.append(Sentiment[0])
                         input2.append(News[1])
                         for Label in PriceList:
@@ -97,9 +90,73 @@ def ShapeData(SentimentList,NewsList,PriceList):
     return input1,input2,labels
 
 
-def DateConvert(Date):
-    Date=str(Date)
-    Date=Date[2:]
-    Date=Date[:-3]+'-'+Date[-2:]
-    Date=Date[3:]+'-'+Date[:2]
-    return Date
+def getPredictionData():
+    Sentiment=[]
+    News=[]
+    predictionDay = (dt.date.today()-dt.timedelta(1)).isoformat()
+
+    for filename in os.listdir('../FYP/TweetModel/TweetFolder/'):
+        if filename.endswith(f'{predictionDay}-News.csv'):
+            with open(f'../FYP/TweetModel/TweetFolder/{filename}', 'rb') as f:
+                for line in f:
+                    News.append(line.rstrip())
+
+        if filename.endswith(f'{predictionDay}Tweet.csv'):
+            with open(f'../FYP/TweetModel/TweetFolder/{filename}', 'rb') as f:
+                for line in f:
+                    Sentiment.append(line.rstrip())
+
+
+    return Sentiment, News
+
+
+def PredictionData(Sentiment, News):
+    
+    split=int(len(Sentiment)/10)
+    drops=(len(Sentiment)%10)
+    del Sentiment[(len(Sentiment)-drops):len(Sentiment)]
+    Sentiment=np.asarray(Sentiment)
+    Sentiment = np.split(Sentiment,split)
+    News=[News]*split
+    return Sentiment, News
+    
+
+def Predict(PredictionSentiments, PredictionNews, Model):
+    pos=0
+    neg=0
+    neu=0
+
+    PredictionSentiments=np.asarray(PredictionSentiments).astype('float32')
+    PredictionNews=np.asarray(PredictionNews).astype('float32')
+
+    for i in range(len(PredictionSentiments)):
+
+        Sentiment=PredictionSentiments[i]
+        News=PredictionNews[i]
+        np.reshape(Sentiment,newshape=[1,10])
+        np.reshape(News, newshape=[1,10])
+
+
+        
+
+
+        News = np.squeeze(News)
+        Sentiment = np.squeeze(Sentiment)
+        News = np.reshape(News,[1,10])
+        Sentiment = np.reshape(Sentiment,[1,10])
+        var = Model.predict({'I1':Sentiment,'I2':News})
+        print(f'Prediction: {var}')
+
+        if var>0.55:
+            pos+=1
+        elif var<0.45:
+            neg+=1
+        else:
+            neu+=1
+
+    
+    print(f'pos: {pos}')
+    print(f'neg: {neg}')
+    print(f'neu: {neu}')
+
+    return pos,neg,neu
