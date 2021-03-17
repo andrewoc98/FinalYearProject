@@ -8,10 +8,9 @@ Prediction Page
 {% endblock %}
 {% block content %}
 <h1>DJIA</h1>
-<canvas id="PriceChart" width="40" height="40"></canvas>
+<canvas id="PriceChart" width="400" height="400"></canvas>
+<script type="text/javascript" src="{{ url_for('static',filename='js/graph.js')}}"></script>
 <script src="{{ url_for('static',filename='js/Price.csv')}}"></script>
-<script type="text/javascript" src="{{ url_for('static',filename='js/work.js')}}">chartIt();</script>
-
     
 </script>
 {% endblock %}

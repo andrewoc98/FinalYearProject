@@ -11,12 +11,12 @@ def trainModel(model,input1,input2,labels):
     model.fit({'I1':input1,'I2':input2},labels,epochs=20, validation_split=0.2,verbose =1)
     model.save(filepath='../FYP/PredictionModel/PredictionModel.bin')
 
-def getData():
+def getData(i):
     today=str(dt.datetime.now().strftime("%x"))
     today = today.replace('/','-')
     #labels
-    PriceDf= pd.read_csv('../FYP/TweetModel/TweetFolder/Price.csv')
-    PriceDf = PriceDf.values.tolist()
+    PriceDf= price.createLabels(i)
+
     SentimentList=[]
     NewsList=[]
 
@@ -75,16 +75,16 @@ def ShapeData(SentimentList,NewsList,PriceList):
                         News[1]=np.asarray(News[1])
                         News[1]=np.squeeze(News[1])
                         Sentiment[0]=np.squeeze(Sentiment[0])
-                        input1.append(Sentiment[0])
-                        input2.append(News[1])
                         for Label in PriceList:
                             if News[0]==Label[1]:
-                                labels.append(Label[2]) 
+                                input1.append(Sentiment[0])
+                                input2.append(News[1])
+                                labels.append(Label[0]) 
                                 
                     except:
                         print(News[1])
                         print(Sentiment[0])
-                        print(Label[2])
+                        print(Label[0])
                         break
 
     return input1,input2,labels

@@ -17,26 +17,17 @@ def getPrice():
                 thewriter = csv.writer(f)
                 thewriter.writerow([price,dt.date.today().isoformat()])
 
-    createLabels()
-
-def createLabels():
-
-    df = pd.read_csv("../TweetModel/TweetFolder/Price.csv")
-    PrevPrice=df['Price'].iloc[-2]
-    CurrentPrice=df['Price'].iloc[-1]
-
-
-    if PrevPrice>CurrentPrice:
-        df['Label'].iloc[-2]=0
-    elif PrevPrice<CurrentPrice:
-        df['Label'].iloc[-2]=1
-    else:
-        df['Label'].iloc[-2]=0.5
-
-
-    f = open('../TweetModel/TweetFolder/Price.csv', 'r+')
-    f.truncate(0)
-    df.to_csv("../TweetModel/TweetFolder/Price.csv", index=False)
-
-
+    
+def createLabels(days):
+    df=pd.read_csv("../TweetModel/TweetFolder/Price.csv")
+    df=df.values.tolist()
+    output=[]
+    i=0
+    while i in range(len(df)) and i+days<len(df):
+        if df[i][0]< df[i+days][0]:
+            output.append([1,df[i][1]])
+        else:
+            output.append([0,df[i][1]])
+        i+=1
+    return output
 
