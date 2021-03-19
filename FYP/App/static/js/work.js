@@ -1,7 +1,9 @@
 async function getData(){
-    const xs = []
-    const ys =[]
-    const x = await fetch('http://127.0.0.1:5000/static/js/Price.csv'); 
+    const xs = [];
+    const ys =[];
+    
+    
+    const x = await fetch('http://localhost/App/static/js/Price.csv'); 
     const data = await x.text();
     const table = data.split('\n').slice(1);
 
@@ -10,9 +12,9 @@ async function getData(){
         const Date = cols[0];
         const price = cols[1];
         xs.push(Date);
-        ys.push(price)
+        ys.push(price);
     });
-    return {xs,ys}
+    return {xs,ys};
 
 }
 
@@ -35,4 +37,4 @@ async function getData(){
         }
     });
 }
-
+chartIt();

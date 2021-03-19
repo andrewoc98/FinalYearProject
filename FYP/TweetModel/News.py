@@ -55,9 +55,10 @@ def getNews():
         except UnicodeEncodeError:
             pass
 
+for i in range(1,6):
     TweetModel.Price.getPrice()
     predictmodel= model.create_model()
-    input1, input2, labels=train.getData()
+    input1, input2, labels=train.getData(i)
     train.trainModel(predictmodel,input1,input2,labels)
     Sentiment, News = train.getPredictionData()
     Sentiment, News =train.PredictionData(Sentiment, News)
