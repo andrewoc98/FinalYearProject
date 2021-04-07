@@ -1,7 +1,7 @@
 import transformers
 import BertModel.src.config as config
 import torch.nn as nn
-
+#This file defines the bert model
 class BERTBaseUncased(nn.Module):
 
     def __init__(self):
